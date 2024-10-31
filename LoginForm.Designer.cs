@@ -71,6 +71,7 @@
             LoginButton.TabIndex = 5;
             LoginButton.Text = "Войти";
             LoginButton.UseVisualStyleBackColor = false;
+            LoginButton.Click += LoginButton_Click;
             // 
             // PassField
             // 

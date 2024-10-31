@@ -19,5 +19,15 @@ namespace BikeStore
             this.PassField.AutoSize = false;
             this.PassField.Size = new Size(this.PassField.Size.Width, this.LoginField.Height);
         }
+
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            String loginUser = LoginField.Text.ToString();
+            String passwordUser = PassField.Text.ToString();
+
+            DB db = new DB();
+
+            
+        }
     }
 }
