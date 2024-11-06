@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,7 +28,37 @@ namespace BikeStore
 
             DB db = new DB();
 
-            
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE `login` = @uL AND `password` = @uP", db.GetConnection());
+            command.Parameters.Add("@uL", MySqlDbType.VarChar).Value = loginUser;
+            command.Parameters.Add("@uP", MySqlDbType.VarChar).Value = passwordUser;
+
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)
+            {
+                MessageBox.Show("You are logged in");
+            }
+            else
+            {
+                MessageBox.Show("You are not logged in");
+
+            }
+
+            db.CloseConnection();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            PassField.UseSystemPasswordChar = !PassField.UseSystemPasswordChar;
+
+            if (PassField.UseSystemPasswordChar)
+                LockPicture.Image = Properties.Resources._lock;
+            else
+                LockPicture.Image = Properties.Resources.LockUnlocked;
         }
     }
 }

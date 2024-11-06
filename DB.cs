@@ -9,7 +9,7 @@ namespace BikeStore
 {
     internal class DB
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=");
+        MySqlConnection connection = new MySqlConnection("server=MySQL-8.2;port=3306;username=root;password=;database=BikestoreDB");
 
         public void OpenConnection()
         {

@@ -31,13 +31,13 @@
             panel1 = new Panel();
             LoginButton = new Button();
             PassField = new TextBox();
-            pictureBox2 = new PictureBox();
+            LockPicture = new PictureBox();
             LoginField = new TextBox();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
             label1 = new Label();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)LockPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -47,7 +47,7 @@
             panel1.BackColor = SystemColors.ControlDark;
             panel1.Controls.Add(LoginButton);
             panel1.Controls.Add(PassField);
-            panel1.Controls.Add(pictureBox2);
+            panel1.Controls.Add(LockPicture);
             panel1.Controls.Add(LoginField);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel2);
@@ -82,15 +82,17 @@
             PassField.TabIndex = 4;
             PassField.UseSystemPasswordChar = true;
             // 
-            // pictureBox2
+            // LockPicture
             // 
-            pictureBox2.Image = Properties.Resources._lock;
-            pictureBox2.Location = new Point(12, 244);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(64, 64);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 3;
-            pictureBox2.TabStop = false;
+            LockPicture.Cursor = Cursors.Hand;
+            LockPicture.Image = Properties.Resources._lock;
+            LockPicture.Location = new Point(12, 244);
+            LockPicture.Name = "LockPicture";
+            LockPicture.Size = new Size(64, 64);
+            LockPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+            LockPicture.TabIndex = 3;
+            LockPicture.TabStop = false;
+            LockPicture.Click += pictureBox2_Click;
             // 
             // LoginField
             // 
@@ -142,7 +144,7 @@
             Text = "LoginForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)LockPicture).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             ResumeLayout(false);
@@ -157,6 +159,6 @@
         private TextBox LoginField;
         private Button LoginButton;
         private TextBox PassField;
-        private PictureBox pictureBox2;
+        private PictureBox LockPicture;
     }
 }
