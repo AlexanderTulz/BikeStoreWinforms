@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using BikeStore.HelperClasses;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using BikeStore.HelperClasses;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,7 @@ namespace BikeStore
 
             RoleBox.Items.Add("Покупатель");
             RoleBox.Items.Add("Продавец");
+            RoleBox.Items.Add("Админ");
             RoleBox.SelectedItem = RoleBox.Items[0];
 
             FirstNameField.Text = DefaultUsernamMessage;
@@ -61,8 +63,23 @@ namespace BikeStore
             String password = PassField.Text;
             String email = EmailField.Text;
             String CurrentRole = (String)RoleBox.Items[RoleBox.SelectedIndex];
-            String role = ((CurrentRole == "Продавец") ? "Seller" : "Customer");
             String date = dateTime.ToString("yyyy/MM/dd");
+
+            String role = ((CurrentRole == "Продавец") ? "Seller" : "Customer");
+
+            switch (CurrentRole)
+            {
+                case "Продавец":
+                    role = "Seller";
+                    break;
+                case "Покупатель":
+                    role = "Customer";
+                    break;
+                case "Админ":
+                    role = "Admin";
+                    break;
+            }
+
 
             // TODO: Add checkers so you can't enter more then a table value can handle in registration form
 
@@ -80,9 +97,9 @@ namespace BikeStore
             }
 
 
+            const string commandString = "INSERT INTO `users` (`login`, `password`, `email`, `name`, `surname`, `role`, `created_at`) VALUES (@login, @password, @email, @name, @surname, @role, @date); ";
 
-
-            MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`login`, `password`, `email`, `name`, `surname`, `role`, `created_at`) VALUES (@login, @password, @email, @name, @surname, @role, @date); ", db.GetConnection());
+            MySqlCommand command = new MySqlCommand(commandString, db.GetConnection());
 
             command.Parameters.Add("@name", MySqlDbType.VarChar).Value = name;
             command.Parameters.Add("@surname", MySqlDbType.VarChar).Value = surname;
