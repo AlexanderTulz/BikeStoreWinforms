@@ -31,7 +31,7 @@ namespace BikeStore
             db.OpenConnection();
             MySqlCommand sqlCommand = new MySqlCommand(commandString, db.GetConnection());
 
-            bool isSellerWithRightPassword = 
+            bool isSellerWithRightPassword =
                 UserSettings.GetRole() == "Seller" &&                                                       // Check if role is seller
                 db.GetUsersTableRole(UserSettings.GetLogin()) == UserSettings.GetRole() &&                  // Check if role matches settings
                 db.GetUsersTablePassword(UserSettings.GetLogin()) == UserSettings.GetUserPassword() &&      // Check if actual password matches settings password
@@ -48,7 +48,8 @@ namespace BikeStore
                 ToolStripMenuItem AddProductProductsMenuItem = new ToolStripMenuItem("Страница добавления товаров");
                 AddProductProductsMenuItem.Click += AddProductProductsPageClicked;
                 mainMenuStrip.DropDownItems.Add(AddProductProductsMenuItem);
-            }else if(isAdminWithRightPassword)
+            }
+            else if (isAdminWithRightPassword)
             {
                 ToolStripMenuItem AdminPageMenuItem = new ToolStripMenuItem("Страница админа");
                 AdminPageMenuItem.Click += AdminPageClicked;
@@ -72,7 +73,7 @@ namespace BikeStore
 
         private void AdminPageClicked(object sender, EventArgs e)
         {
-            if(CurrentForm != null) CurrentForm.Hide();
+            if (CurrentForm != null) CurrentForm.Hide();
 
             AdminPageForm adminPageForm = new AdminPageForm() { TopLevel = false, TopMost = true };
             CurrentForm = adminPageForm;

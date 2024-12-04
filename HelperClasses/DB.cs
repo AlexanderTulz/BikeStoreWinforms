@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic.Logging;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,7 +119,7 @@ namespace BikeStore.HelperClasses
 
             commandString = "SELECT `ShopName` FROM `shops` WHERE `OwnerID` = @userID";
             command.CommandText = commandString;
-            command.Parameters.Add("@userID", MySqlDbType.VarChar).Value = userID;
+            command.Parameters.Add("@userID", MySqlDbType.UInt32).Value = userID;
 
             string shopName = "";
             result = command.ExecuteScalar();
@@ -127,6 +128,63 @@ namespace BikeStore.HelperClasses
             CloseConnection();
 
             return shopName;
+        }
+
+        public uint GetShopID(string shopName)
+        {
+            OpenConnection();
+
+            string commandString = "SELECT `ShopID` FROM `shops` WHERE `ShopName` = @shopName";
+
+            MySqlCommand command = new MySqlCommand(commandString, GetConnection());
+            command.CommandText = commandString;
+            command.Parameters.Add("@shopName", MySqlDbType.VarChar).Value = shopName;
+
+            uint shopID = 0;
+            object result = command.ExecuteScalar();
+            if (result != null) shopID = UInt32.Parse(result.ToString());
+
+            CloseConnection();
+
+            return shopID;
+        }
+
+        public uint GetCategoryID(string categoryName) 
+        {
+            OpenConnection();
+            string commandString = "SELECT `categoryID` FROM `categories` WHERE `category_name` = @category_name";
+
+            MySqlCommand command = new MySqlCommand(commandString, GetConnection());
+            command.CommandText = commandString;
+            command.Parameters.Add("@category_name", MySqlDbType.VarChar).Value = categoryName;
+
+            uint categoryID = 0;
+            object result = command.ExecuteScalar();
+            if (result != null) categoryID = UInt32.Parse(result.ToString());
+
+            CloseConnection();
+
+            return categoryID;
+
+        }
+
+        public uint GetItemID(string itemName, uint shopID)
+        {
+            OpenConnection();
+            string commandString = "SELECT `itemID` FROM `items` WHERE `item_name` = @item_name AND `shopID` = @shopID";
+
+            MySqlCommand command = new MySqlCommand(commandString, GetConnection());
+            command.CommandText = commandString;
+            command.Parameters.Add("@item_name", MySqlDbType.VarChar).Value = itemName;
+            command.Parameters.Add("@shopID", MySqlDbType.UInt32).Value = shopID;
+
+            uint itemID = 0;
+            object result = command.ExecuteScalar();
+            if (result != null) itemID = UInt32.Parse(result.ToString());
+
+            CloseConnection();
+
+            return itemID;
         }
     }
 }

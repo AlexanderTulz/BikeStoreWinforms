@@ -58,7 +58,7 @@
             // 
             ChildFormPanel.Location = new Point(220, 30);
             ChildFormPanel.Name = "ChildFormPanel";
-            ChildFormPanel.Size = new Size(1030, 631);
+            ChildFormPanel.Size = new Size(1030, 704);
             ChildFormPanel.TabIndex = 1;
             // 
             // ButtonsPanel
@@ -119,14 +119,14 @@
             // поискToolStripMenuItem
             // 
             поискToolStripMenuItem.Name = "поискToolStripMenuItem";
-            поискToolStripMenuItem.Size = new Size(224, 26);
+            поискToolStripMenuItem.Size = new Size(135, 26);
             поискToolStripMenuItem.Text = "Поиск";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1262, 673);
+            ClientSize = new Size(1262, 746);
             Controls.Add(ButtonsPanel);
             Controls.Add(ChildFormPanel);
             Controls.Add(MainFormMenuStrip);

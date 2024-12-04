@@ -15,14 +15,31 @@ namespace BikeStore.HelperClasses
         DeleteShop,
     };
 
+    enum EPermissionFields
+    {
+        Date,
+        Time,
+        Shop,
+        Action,
+        Permission,
+        Status,
+        item_name,
+        item_description,
+        price,
+        amount_in_stock,
+        category,
+        item_image
+    }
+
 
     internal class AdminHelper
     {
-        static string BasePath = @"";
+        static string BasePath = @"X:\Unik\AlgorithmsAndDataStructure\BikeStore";
         static string FolderName = @"Permissions\";
         static string FullPath = BasePath + @"\" + FolderName;
-        static string IndexFile = "IDX_Main";
+        string IndexFile = "IDX_Main";
         static string IndexFileKey = "IDX_";
+        public static readonly string NoImageFoundPicturePath = BasePath + @"\Images\NoImageFound.png";
 
         private static readonly string[] StrFields = { 
             "Shop",
@@ -407,6 +424,60 @@ namespace BikeStore.HelperClasses
             }
 
             return false;
+        }
+
+        public string[] GetPermissionNames()
+        {
+            //string[] fileIndexes = new string[];
+
+            string[] fileNames = Directory.GetFiles(FullPath);
+            List<string> indexes = new List<string>();
+            
+            foreach(string fileName in fileNames)
+            {
+                string buffer = fileName.Replace($"{FullPath}", "");
+
+                indexes.Add(buffer);
+            }
+
+            indexes.Remove(IndexFile);
+            indexes.Remove("IDX_Example");
+            indexes.Remove("IDX_Read_Example");
+            indexes.Reverse();
+
+            string[] retVal = indexes.ToArray();
+
+            return retVal;
+        }
+
+        public int[] GetPermissionIndexes()
+        {
+            string[] indexNames = GetPermissionNames();
+            List<int> indexes = new List<int>();
+
+
+            foreach(string indexName in indexNames)
+            {
+                string indexStr = indexName.Remove(0, IndexFileKey.Length);
+
+                indexes.Add(Int32.Parse(indexStr));
+            }
+
+            return indexes.ToArray();
+        }
+
+        public int GetIDXIndex(string fileName)
+        {
+            int index = Int32.Parse(fileName.Remove(0, IndexFileKey.Length));
+
+            return index;
+        }
+
+        public static string GetFieldName(EPermissionFields field)
+        {
+            if (field == null) return "";
+
+            return field.ToString();
         }
     }
 }
