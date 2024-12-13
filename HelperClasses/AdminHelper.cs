@@ -34,7 +34,7 @@ namespace BikeStore.HelperClasses
 
     internal class AdminHelper
     {
-        static string BasePath = @"X:\Unik\AlgorithmsAndDataStructure\BikeStore";
+        public static string BasePath = @"X:\Unik\AlgorithmsAndDataStructure\BikeStore";
         static string FolderName = @"Permissions\";
         static string FullPath = BasePath + @"\" + FolderName;
         string IndexFile = "IDX_Main";
@@ -84,7 +84,7 @@ namespace BikeStore.HelperClasses
             }
         }
 
-        private int GetIndex()
+        public int GetIndex()
         {
             int index = -1;
             using(StreamReader sr = File.OpenText(FullPath + IndexFile))
@@ -98,6 +98,11 @@ namespace BikeStore.HelperClasses
             }
 
             return index;
+        }
+
+        public void DeleteIDX(int index)
+        {
+            File.Delete($"{FullPath}{IndexFileKey}{index}");
         }
 
         private void SetNextIndex()

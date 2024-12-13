@@ -28,72 +28,173 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
-            checkBox3 = new CheckBox();
+            ItemsListBox = new ListBox();
+            OpenItemButton = new Button();
+            ItemPictureBox = new PictureBox();
+            ItemPriceLable = new Label();
+            CategoryLable = new Label();
+            ItemNameLable = new Label();
+            ItemDescriptionRichTextBox = new RichTextBox();
+            AmountInStockLable = new Label();
+            ShopNameLable = new Label();
+            ItemDescriptionLable = new Label();
+            ItemPanel = new Panel();
+            AddToCartButton = new Button();
+            ((System.ComponentModel.ISupportInitialize)ItemPictureBox).BeginInit();
+            ItemPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // ItemsListBox
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(42, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(696, 106);
-            label1.TabIndex = 0;
-            label1.Text = "Главная страница";
+            ItemsListBox.FormattingEnabled = true;
+            ItemsListBox.ItemHeight = 20;
+            ItemsListBox.Location = new Point(12, 24);
+            ItemsListBox.Name = "ItemsListBox";
+            ItemsListBox.Size = new Size(150, 364);
+            ItemsListBox.TabIndex = 5;
             // 
-            // checkBox1
+            // OpenItemButton
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(456, 370);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(101, 24);
-            checkBox1.TabIndex = 1;
-            checkBox1.Text = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
+            OpenItemButton.Location = new Point(12, 402);
+            OpenItemButton.Name = "OpenItemButton";
+            OpenItemButton.Size = new Size(150, 29);
+            OpenItemButton.TabIndex = 6;
+            OpenItemButton.Text = "Открыть товар";
+            OpenItemButton.UseVisualStyleBackColor = true;
+            OpenItemButton.Click += OpenItemButton_Click;
             // 
-            // checkBox2
+            // ItemPictureBox
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(456, 313);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(101, 24);
-            checkBox2.TabIndex = 3;
-            checkBox2.Text = "checkBox2";
-            checkBox2.UseVisualStyleBackColor = true;
+            ItemPictureBox.Location = new Point(325, 46);
+            ItemPictureBox.Name = "ItemPictureBox";
+            ItemPictureBox.Size = new Size(312, 312);
+            ItemPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            ItemPictureBox.TabIndex = 7;
+            ItemPictureBox.TabStop = false;
             // 
-            // checkBox3
+            // ItemPriceLable
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(456, 340);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(101, 24);
-            checkBox3.TabIndex = 4;
-            checkBox3.Text = "checkBox3";
-            checkBox3.UseVisualStyleBackColor = true;
+            ItemPriceLable.AutoSize = true;
+            ItemPriceLable.Font = new Font("Segoe Print", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            ItemPriceLable.Location = new Point(325, 360);
+            ItemPriceLable.Name = "ItemPriceLable";
+            ItemPriceLable.Size = new Size(185, 40);
+            ItemPriceLable.TabIndex = 8;
+            ItemPriceLable.Text = "Цена : 00000";
+            // 
+            // CategoryLable
+            // 
+            CategoryLable.AutoSize = true;
+            CategoryLable.Font = new Font("Segoe Print", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            CategoryLable.Location = new Point(17, 12);
+            CategoryLable.Name = "CategoryLable";
+            CategoryLable.Size = new Size(300, 30);
+            CategoryLable.TabIndex = 9;
+            CategoryLable.Text = "Категория : категория длиннее";
+            // 
+            // ItemNameLable
+            // 
+            ItemNameLable.AutoSize = true;
+            ItemNameLable.Font = new Font("Segoe Print", 10.8F, FontStyle.Bold, GraphicsUnit.Point);
+            ItemNameLable.Location = new Point(325, 12);
+            ItemNameLable.Name = "ItemNameLable";
+            ItemNameLable.Size = new Size(320, 31);
+            ItemNameLable.TabIndex = 10;
+            ItemNameLable.Text = "Название : что то крутое там";
+            // 
+            // ItemDescriptionRichTextBox
+            // 
+            ItemDescriptionRichTextBox.Location = new Point(17, 109);
+            ItemDescriptionRichTextBox.Name = "ItemDescriptionRichTextBox";
+            ItemDescriptionRichTextBox.ReadOnly = true;
+            ItemDescriptionRichTextBox.Size = new Size(302, 229);
+            ItemDescriptionRichTextBox.TabIndex = 11;
+            ItemDescriptionRichTextBox.Text = "";
+            // 
+            // AmountInStockLable
+            // 
+            AmountInStockLable.AutoSize = true;
+            AmountInStockLable.Font = new Font("Segoe Print", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            AmountInStockLable.Location = new Point(17, 46);
+            AmountInStockLable.Name = "AmountInStockLable";
+            AmountInStockLable.Size = new Size(268, 30);
+            AmountInStockLable.TabIndex = 12;
+            AmountInStockLable.Text = "Количество на складе : 100";
+            // 
+            // ShopNameLable
+            // 
+            ShopNameLable.AutoSize = true;
+            ShopNameLable.Font = new Font("Segoe Print", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            ShopNameLable.Location = new Point(17, 76);
+            ShopNameLable.Name = "ShopNameLable";
+            ShopNameLable.Size = new Size(273, 30);
+            ShopNameLable.TabIndex = 13;
+            ShopNameLable.Text = "Магазин : Название магазина";
+            // 
+            // ItemDescriptionLable
+            // 
+            ItemDescriptionLable.AutoSize = true;
+            ItemDescriptionLable.Font = new Font("Segoe Print", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            ItemDescriptionLable.Location = new Point(17, 341);
+            ItemDescriptionLable.Name = "ItemDescriptionLable";
+            ItemDescriptionLable.Size = new Size(171, 30);
+            ItemDescriptionLable.TabIndex = 14;
+            ItemDescriptionLable.Text = "Описание товара";
+            // 
+            // ItemPanel
+            // 
+            ItemPanel.Controls.Add(ItemDescriptionLable);
+            ItemPanel.Controls.Add(AddToCartButton);
+            ItemPanel.Controls.Add(CategoryLable);
+            ItemPanel.Controls.Add(AmountInStockLable);
+            ItemPanel.Controls.Add(ShopNameLable);
+            ItemPanel.Controls.Add(ItemDescriptionRichTextBox);
+            ItemPanel.Controls.Add(ItemPictureBox);
+            ItemPanel.Controls.Add(ItemNameLable);
+            ItemPanel.Controls.Add(ItemPriceLable);
+            ItemPanel.Location = new Point(168, 12);
+            ItemPanel.Name = "ItemPanel";
+            ItemPanel.Size = new Size(648, 435);
+            ItemPanel.TabIndex = 15;
+            // 
+            // AddToCartButton
+            // 
+            AddToCartButton.Location = new Point(325, 403);
+            AddToCartButton.Name = "AddToCartButton";
+            AddToCartButton.Size = new Size(312, 29);
+            AddToCartButton.TabIndex = 16;
+            AddToCartButton.Text = "Добавить в корзину";
+            AddToCartButton.UseVisualStyleBackColor = true;
+            AddToCartButton.Click += AddToCartButton_Click;
             // 
             // StoreMainPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(checkBox3);
-            Controls.Add(checkBox2);
-            Controls.Add(checkBox1);
-            Controls.Add(label1);
+            ClientSize = new Size(828, 453);
+            Controls.Add(OpenItemButton);
+            Controls.Add(ItemsListBox);
+            Controls.Add(ItemPanel);
             Name = "StoreMainPage";
             Text = "StoreMainPage";
+            ((System.ComponentModel.ISupportInitialize)ItemPictureBox).EndInit();
+            ItemPanel.ResumeLayout(false);
+            ItemPanel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
-        private CheckBox checkBox1;
-        private CheckBox checkBox2;
-        private CheckBox checkBox3;
+        private ListBox ItemsListBox;
+        private Button OpenItemButton;
+        private PictureBox ItemPictureBox;
+        private Label ItemPriceLable;
+        private Label CategoryLable;
+        private Label ItemNameLable;
+        private RichTextBox ItemDescriptionRichTextBox;
+        private Label AmountInStockLable;
+        private Label ShopNameLable;
+        private Label ItemDescriptionLable;
+        private Panel ItemPanel;
+        private Button AddToCartButton;
     }
 }

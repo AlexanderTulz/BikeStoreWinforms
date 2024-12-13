@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -61,6 +62,14 @@ namespace BikeStore
             int index = ah.GetIDXIndex(PermissionListbox.Items[SelectedIndex].ToString());
             CurrentIndex = index;
 
+            //PermissionComboBox.Items [PermissionComboBox.SelectedIndex];
+
+            //if("Отклонить".Equals(PermissionComboBox.Items[PermissionComboBox.SelectedIndex].ToString()))
+            //{
+
+            //    ah.SetStrFieldValue(AdminHelper.GetFieldName(EPermissionFields.Permission), "no");
+            //    return;
+            //}
 
             string fieldValue = "";
 
@@ -139,7 +148,23 @@ namespace BikeStore
         private void SendPermissionButton_Click(object sender, EventArgs e)
         {
             db.OpenConnection();
-            
+
+            string action = "";
+
+            if(!ah.GetFieldValueAtIndex(CurrentIndex, AdminHelper.GetFieldName(EPermissionFields.Action), ref action))
+            {
+               
+            }
+
+            if ("Отклонить".Equals(PermissionComboBox.Items[PermissionComboBox.SelectedIndex].ToString()))
+            {
+                ah.DeleteIDX(CurrentIndex);
+                CurrentIndex = -1;
+                MessageBox.Show("Запрос был отклонен");
+                return;
+            }
+
+
 
             string login = settings.GetLogin();
 
@@ -180,14 +205,37 @@ namespace BikeStore
                 MessageBox.Show($"Не смогли прочитать поле - {AdminHelper.GetFieldName(EPermissionFields.amount_in_stock)} ");
             }
 
+            if (action == PermissionAction.AddItem.ToString())
+            {
+                AddItemImplementation(ShopName, itemName, itemDescription, itemCategory, itemImage, price, amountInStock);
+            }
+            else if(action == PermissionAction.ChangeItem.ToString())
+            {
+                ChangeItemImplementation(ShopName, itemName, itemDescription, itemCategory, itemImage, price, amountInStock);
+            }
+            else if (action == PermissionAction.DeleteItem.ToString())
+            {
+                DeleteItemImplementation(ShopName, itemName);
+            }
+        }
+
+        void AddItemImplementation(
+            string ShopName,
+            string itemName,
+            string itemDescription,
+            string itemCategory,
+            string itemImage,
+            string price,
+            string amountInStock)
+        {
             uint categoryID = db.GetCategoryID(itemCategory);
-            if(categoryID == 0) // category does not exist
+            if (categoryID == 0) // category does not exist
             {
                 string categoryCommandStr = $"INSERT INTO `categories` (`category_name`) VALUES('{itemCategory}')";
                 MySqlCommand categoryCommand = new MySqlCommand(categoryCommandStr, db.GetConnection());
 
                 db.OpenConnection();
-                if(categoryCommand.ExecuteNonQuery() == 1)
+                if (categoryCommand.ExecuteNonQuery() == 1)
                 {
                     // success created category
                     categoryID = db.GetCategoryID(itemCategory);
@@ -199,7 +247,7 @@ namespace BikeStore
                 db.CloseConnection();
             }
 
-           
+
             const string commandString = "INSERT INTO `items` (`shopID`, `item_name`, `item_description`, `price`, `amount_in_stock`, `categoryID`) VALUES (@shopID, @item_name, @item_description, @price, @amount_in_stock, @categoryID); ";
             MySqlCommand sqlCommand = new MySqlCommand(commandString, db.GetConnection());
 
@@ -220,8 +268,8 @@ namespace BikeStore
                 MySqlCommand imageCommand = new MySqlCommand(imageCommandStr, db.GetConnection());
 
                 uint itemID = db.GetItemID(itemName, db.GetShopID(ShopName));
-                
-                if(itemID == 0)
+
+                if (itemID == 0)
                 {
                     MessageBox.Show("Запрос не был исполнене, ошибка");
                     return;
@@ -230,6 +278,150 @@ namespace BikeStore
                 imageCommand.Parameters.Add("@itemID", MySqlDbType.UInt32).Value = itemID;
                 imageCommand.Parameters.Add("@path_to_image", MySqlDbType.VarChar).Value = itemImage;
 
+                db.CloseConnection();
+                db.OpenConnection();
+
+                if (imageCommand.ExecuteNonQuery() == 1)
+                {
+                    // success
+
+                    MessageBox.Show("Запрос был одобрен");
+                    db.CloseConnection();
+                }
+                else
+                {
+                    MessageBox.Show("Запрос не был исполнене, ошибка");
+                }
+                db.CloseConnection();
+
+
+            }
+            else
+            {
+                MessageBox.Show("Запрос не был исполнене, ошибка");
+            }
+
+
+            db.CloseConnection();
+        }
+
+        void ChangeItemImplementation(
+            string ShopName,
+            string itemName,
+            string itemDescription,
+            string itemCategory,
+            string itemImage,
+            string price,
+            string amountInStock)
+        {
+            uint categoryID = db.GetCategoryID(itemCategory);
+            if (categoryID == 0) // category does not exist
+            {
+                string categoryCommandStr = $"INSERT INTO `categories` (`category_name`) VALUES('{itemCategory}')";
+                MySqlCommand categoryCommand = new MySqlCommand(categoryCommandStr, db.GetConnection());
+
+                db.OpenConnection();
+                if (categoryCommand.ExecuteNonQuery() == 1)
+                {
+                    // success created category
+                    categoryID = db.GetCategoryID(itemCategory);
+                }
+                else
+                {
+                    MessageBox.Show($"Категория {itemCategory} не была создана");
+                }
+                db.CloseConnection();
+            }
+
+
+            const string commandString = "UPDATE `items` SET `item_name` = @item_name, `item_description` = @item_description, `price` = @price, `amount_in_stock` = @amount_in_stock, `categoryID` = @categoryID WHERE `itemID` = @itemID AND `shopID` = @shopID;";
+            MySqlCommand sqlCommand = new MySqlCommand(commandString, db.GetConnection());
+
+            // Non predictible behavior when changing item name // fix it
+
+            sqlCommand.Parameters.Add("@itemID", MySqlDbType.UInt32).Value = db.GetItemID(itemName, db.GetShopID(ShopName));
+            sqlCommand.Parameters.Add("@shopID", MySqlDbType.UInt32).Value = db.GetShopID(ShopName);
+            sqlCommand.Parameters.Add("@item_name", MySqlDbType.VarChar).Value = itemName;
+            sqlCommand.Parameters.Add("@item_description", MySqlDbType.VarChar).Value = itemDescription;
+            sqlCommand.Parameters.Add("@price", MySqlDbType.Double).Value = Double.Parse(price);
+            sqlCommand.Parameters.Add("@amount_in_stock", MySqlDbType.UInt32).Value = UInt32.Parse(amountInStock);
+            sqlCommand.Parameters.Add("@categoryID", MySqlDbType.UInt32).Value = (categoryID);
+
+            db.CloseConnection();
+            db.OpenConnection();
+            if (sqlCommand.ExecuteNonQuery() == 1)
+            {
+                // success
+                string imageCommandStr = "UPDATE `item_images` SET `path_to_image` = @path_to_image WHERE `itemID` = @itemID";
+                MySqlCommand imageCommand = new MySqlCommand(imageCommandStr, db.GetConnection());
+
+                uint itemID = db.GetItemID(itemName, db.GetShopID(ShopName));
+
+                if (itemID == 0)
+                {
+                    MessageBox.Show("Запрос не был исполнене, ошибка");
+                    return;
+                }
+
+                imageCommand.Parameters.Add("@itemID", MySqlDbType.UInt32).Value = itemID;
+                imageCommand.Parameters.Add("@path_to_image", MySqlDbType.VarChar).Value = itemImage;
+
+                db.CloseConnection();
+                db.OpenConnection();
+
+                if (imageCommand.ExecuteNonQuery() == 1)
+                {
+                    // success
+
+                    MessageBox.Show("Запрос был одобрен");
+                    db.CloseConnection();
+                }
+                else
+                {
+                    MessageBox.Show("Запрос не был исполнене, ошибка");
+                }
+                db.CloseConnection();
+
+
+            }
+            else
+            {
+                MessageBox.Show("Запрос не был исполнене, ошибка");
+            }
+
+
+            db.CloseConnection();
+        }
+
+        void DeleteItemImplementation(
+            string ShopName,
+            string itemName)
+        {
+            const string commandString = "DELETE FROM `items` WHERE `itemID` = @itemID AND `shopID` = @shopID;";
+            MySqlCommand sqlCommand = new MySqlCommand(commandString, db.GetConnection());
+
+            // Non predictible behavior when changing item name // fix it
+
+            sqlCommand.Parameters.Add("@itemID", MySqlDbType.UInt32).Value = db.GetItemID(itemName, db.GetShopID(ShopName));
+            sqlCommand.Parameters.Add("@shopID", MySqlDbType.UInt32).Value = db.GetShopID(ShopName);
+
+            db.CloseConnection();
+            db.OpenConnection();
+            if (sqlCommand.ExecuteNonQuery() == 1)
+            {
+                // success
+                string imageCommandStr = "DELETE FROM `item_images` WHERE `itemID` = @itemID";
+                MySqlCommand imageCommand = new MySqlCommand(imageCommandStr, db.GetConnection());
+
+                uint itemID = db.GetItemID(itemName, db.GetShopID(ShopName));
+
+                if (itemID == 0)
+                {
+                    MessageBox.Show("Запрос не был исполнене, ошибка");
+                    return;
+                }
+
+                imageCommand.Parameters.Add("@itemID", MySqlDbType.UInt32).Value = itemID;
                 db.CloseConnection();
                 db.OpenConnection();
 

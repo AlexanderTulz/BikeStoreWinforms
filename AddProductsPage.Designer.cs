@@ -43,8 +43,11 @@
             SetItemImageLable = new Label();
             SelectItemImageButton = new Button();
             AddItemButton = new Button();
-            debugButton = new Button();
+            CancelButton = new Button();
+            menuStrip1 = new MenuStrip();
+            отправленныеЗапросыToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)SetItemImagePictureBox).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -138,6 +141,8 @@
             // 
             // SetItemCategoryComboBox
             // 
+            SetItemCategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SetItemCategoryComboBox.FlatStyle = FlatStyle.System;
             SetItemCategoryComboBox.FormattingEnabled = true;
             SetItemCategoryComboBox.Location = new Point(380, 244);
             SetItemCategoryComboBox.Name = "SetItemCategoryComboBox";
@@ -149,6 +154,7 @@
             SetItemImagePictureBox.Location = new Point(702, 284);
             SetItemImagePictureBox.Name = "SetItemImagePictureBox";
             SetItemImagePictureBox.Size = new Size(256, 256);
+            SetItemImagePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             SetItemImagePictureBox.TabIndex = 13;
             SetItemImagePictureBox.TabStop = false;
             // 
@@ -170,6 +176,7 @@
             SelectItemImageButton.TabIndex = 15;
             SelectItemImageButton.Text = "Выбрать изображение";
             SelectItemImageButton.UseVisualStyleBackColor = true;
+            SelectItemImageButton.Click += SelectItemImageButton_Click;
             // 
             // AddItemButton
             // 
@@ -181,21 +188,39 @@
             AddItemButton.UseVisualStyleBackColor = true;
             AddItemButton.Click += AddItemButton_Click;
             // 
-            // debugButton
+            // CancelButton
             // 
-            debugButton.Location = new Point(531, 536);
-            debugButton.Name = "debugButton";
-            debugButton.Size = new Size(94, 29);
-            debugButton.TabIndex = 17;
-            debugButton.Text = "debugBut";
-            debugButton.UseVisualStyleBackColor = true;
+            CancelButton.Location = new Point(440, 577);
+            CancelButton.Name = "CancelButton";
+            CancelButton.Size = new Size(256, 29);
+            CancelButton.TabIndex = 17;
+            CancelButton.Text = "Отменить изменения";
+            CancelButton.UseVisualStyleBackColor = true;
+            CancelButton.Click += CancelButton_Click;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { отправленныеЗапросыToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1040, 28);
+            menuStrip1.TabIndex = 18;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // отправленныеЗапросыToolStripMenuItem
+            // 
+            отправленныеЗапросыToolStripMenuItem.Name = "отправленныеЗапросыToolStripMenuItem";
+            отправленныеЗапросыToolStripMenuItem.Size = new Size(191, 24);
+            отправленныеЗапросыToolStripMenuItem.Text = "Отправленные запросы";
+            отправленныеЗапросыToolStripMenuItem.Click += отправленныеЗапросыToolStripMenuItem_Click;
             // 
             // AddProductsPage
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1040, 645);
-            Controls.Add(debugButton);
+            Controls.Add(CancelButton);
             Controls.Add(AddItemButton);
             Controls.Add(SelectItemImageButton);
             Controls.Add(SetItemImageLable);
@@ -211,9 +236,13 @@
             Controls.Add(SetItemNameLable);
             Controls.Add(SetItemNameTextBox);
             Controls.Add(label1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "AddProductsPage";
             Text = "AddProductsPage";
             ((System.ComponentModel.ISupportInitialize)SetItemImagePictureBox).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -235,6 +264,8 @@
         private Label SetItemImageLable;
         private Button SelectItemImageButton;
         private Button AddItemButton;
-        private Button debugButton;
+        private Button CancelButton;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem отправленныеЗапросыToolStripMenuItem;
     }
 }
